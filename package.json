@@ -1,6 +1,7 @@
 {
   "name": "tarea-4",
   "version": "1.0.0",
+  "type": "module",
   "description": "Learn how to use serverless functions in less than 30 minutes!",
   "main": "index.js",
   "scripts": {

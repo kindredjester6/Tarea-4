@@ -1,33 +1,70 @@
 import * as d3 from "d3";
 import jsdom from "jsdom";
 
-
-
 const { JSDOM } = jsdom;
 const { document } = (new JSDOM('')).window;
 global.document = document;
 
+class TreeNode {
+  constructor(id, size) {
+      this.id = id;
+      this.size = size;
+      this.children = [];
+  }
+}
+
+function convertToHierarchy(lista, name) {
+  const root = new TreeNode(name, null);
+  
+  lista.forEach(item => {
+      const classes = item.id.split(".");
+      let currentNode = root;
+      
+      classes.forEach(className => {
+          let childNode = currentNode.children.find(child => child.id === className);
+          if (!childNode) {
+              childNode = new TreeNode(className, null);
+              currentNode.children.push(childNode);
+          }
+          currentNode = childNode;
+      });
+      
+      currentNode.size = item.size;
+  });
+  
+  return root;
+}
+
+
+
 exports.handler = async (event, context) => {
 
-  
+  let url = event.queryStringParameters["url"];
   try {
-   //
-   let data = await d3.csv('/vueModule.csv')
+   let data = await d3.csv(url)
+   
 
    data = data.map((/** @type {{ pathname: any; size: any; }} */ item) => {
        return {
-           id: item.pathname,
-           size: item.size
+           id: Object.values(item)[0],
+           size: Object.values(item)[1]
        };
    });
 
-   let rootNode = makeNode.convertToHierarchy(data, "moduls"); //A cambiar
+   let rootNode = convertToHierarchy(data, "flareClass"); //A cambiar
    var root = d3.hierarchy(rootNode);
-   const treeLayout = d3.cluster().size([360, 800]);
+   const treeLayout = d3.cluster().size([360, 500]);
    treeLayout(root);
 
-   const svg = d3.select('body')
-   const g = svg.append("g").attr("transform", "translate(850,850)");
+   const body = d3.select(document).select("body");
+
+   const svg = body.append("svg")
+      .attr("id", "grafRad")
+      .attr("width", 600*3)
+      .attr("height", 400*3);
+
+   const g = svg.append("g")
+        .attr("transform", "translate("+(600*3)/2+","+(400*3)/2+")");
 
    const nodesGroup = g.append("g").attr("class", "nodes");
    const linksGroup = g.append("g").attr("class", "links");
@@ -88,3 +125,4 @@ exports.handler = async (event, context) => {
     };
   }
 };
+
