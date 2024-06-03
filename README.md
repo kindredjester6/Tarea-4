@@ -1,7 +1,7 @@
 #Correr Radial
 
-- http://localhost:8888/api/grafRadial?url=http://localhost:8888/moduls.csv
+- [moduls](https://teal-platypus-f45578.netlify.app/api/grafRadial?url=http://teal-platypus-f45578.netlify.app/moduls.csv)
 
-- http://localhost:8888/api/grafRadial?url=http://localhost:8888/flareClass.csv
+- [flareClass](https://teal-platypus-f45578.netlify.app/api/grafRadial?url=http://teal-platypus-f45578.netlify.app/flareClass.csv)
 
-- http://localhost:8888/api/grafRadial?url=http://localhost:8888/distritos.csv
+- [distritos](https://teal-platypus-f45578.netlify.app/api/grafRadial?url=http://teal-platypus-f45578.netlify.app/distritos.csv)
